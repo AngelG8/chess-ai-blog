@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Rooting for Success: Improving Tree Search 🌲 | Angel Gong</title>
+<meta name="keywords" content="">
+<meta name="description" content="Improving Computation: Alpha-Beta Pruning Alpha-beta pruning is an optimization to Minimax that significantly reduces the number of nodes evaluated in the search tree. It allows the algorithm to search deeper by pruning branches that can&rsquo;t influence the final decision, thereby improving computation time without affecting the result (we need to compute fewer states).
+How Alpha-Beta Pruning Works The idea behind alpha-beta pruning is to keep track of two values, alpha and beta, which represent the minimum score that the maximizing player is assured of (alpha) and the maximum score that the minimizing player is assured of (beta).">
+<meta name="author" content="">
+<link rel="canonical" href="https://angelg8.github.io/chess-ai-blog/posts/3-chess-ai/">
+<link crossorigin="anonymous" href="/chess-ai-blog/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://angelg8.github.io/chess-ai-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://angelg8.github.io/chess-ai-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://angelg8.github.io/chess-ai-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://angelg8.github.io/chess-ai-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="https://angelg8.github.io/chess-ai-blog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://angelg8.github.io/chess-ai-blog/posts/3-chess-ai/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="Rooting for Success: Improving Tree Search 🌲" />
+<meta property="og:description" content="Improving Computation: Alpha-Beta Pruning Alpha-beta pruning is an optimization to Minimax that significantly reduces the number of nodes evaluated in the search tree. It allows the algorithm to search deeper by pruning branches that can&rsquo;t influence the final decision, thereby improving computation time without affecting the result (we need to compute fewer states).
+How Alpha-Beta Pruning Works The idea behind alpha-beta pruning is to keep track of two values, alpha and beta, which represent the minimum score that the maximizing player is assured of (alpha) and the maximum score that the minimizing player is assured of (beta)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://angelg8.github.io/chess-ai-blog/posts/3-chess-ai/" /><meta property="article:section" content="posts" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Rooting for Success: Improving Tree Search 🌲"/>
+<meta name="twitter:description" content="Improving Computation: Alpha-Beta Pruning Alpha-beta pruning is an optimization to Minimax that significantly reduces the number of nodes evaluated in the search tree. It allows the algorithm to search deeper by pruning branches that can&rsquo;t influence the final decision, thereby improving computation time without affecting the result (we need to compute fewer states).
+How Alpha-Beta Pruning Works The idea behind alpha-beta pruning is to keep track of two values, alpha and beta, which represent the minimum score that the maximizing player is assured of (alpha) and the maximum score that the minimizing player is assured of (beta)."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://angelg8.github.io/chess-ai-blog/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Rooting for Success: Improving Tree Search 🌲",
+      "item": "https://angelg8.github.io/chess-ai-blog/posts/3-chess-ai/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Rooting for Success: Improving Tree Search 🌲",
+  "name": "Rooting for Success: Improving Tree Search 🌲",
+  "description": "Improving Computation: Alpha-Beta Pruning Alpha-beta pruning is an optimization to Minimax that significantly reduces the number of nodes evaluated in the search tree. It allows the algorithm to search deeper by pruning branches that can\u0026rsquo;t influence the final decision, thereby improving computation time without affecting the result (we need to compute fewer states).\nHow Alpha-Beta Pruning Works The idea behind alpha-beta pruning is to keep track of two values, alpha and beta, which represent the minimum score that the maximizing player is assured of (alpha) and the maximum score that the minimizing player is assured of (beta).",
+  "keywords": [
+    
+  ],
+  "articleBody": "Improving Computation: Alpha-Beta Pruning Alpha-beta pruning is an optimization to Minimax that significantly reduces the number of nodes evaluated in the search tree. It allows the algorithm to search deeper by pruning branches that can’t influence the final decision, thereby improving computation time without affecting the result (we need to compute fewer states).\nHow Alpha-Beta Pruning Works The idea behind alpha-beta pruning is to keep track of two values, alpha and beta, which represent the minimum score that the maximizing player is assured of (alpha) and the maximum score that the minimizing player is assured of (beta). As the search progresses, these values are updated to reflect the best scores found so far.\nHere’s a step-by-step explanation:\nInitialization: At the root of the tree, alpha is initialized to negative infinity, and beta is initialized to positive infinity. Maximizing Player’s Turn: For each move, the maximizing player (let’s call this player Max) attempts to maximize their score. As Max explores each move, if a score is found that is greater than or equal to beta (the best score the minimizing player can enforce), we can stop our search early. This is because the minimizing player (Min) will avoid this path, knowing they can force a lower score elsewhere. Therfore, we update alpha to the maximum value found so far. Minimizing Player’s Turn: Similarly, for each move, the minimizing player (Min) attempts to minimize their score. As Min explores each move, if a score is found that is less than or equal to alpha (the best score the maximizing player can enforce), we stop our search early. Max will avoid this path, knowing they can force a higher score elsewhere. Now, we update beta to the minimum value found so far. Pruning: If at any point alpha becomes greater than or equal to beta, the current branch is pruned, meaning no further nodes are explored in this branch. This is because the current path cannot improve the outcome for the current player given the best responses of the opponent. class AlphaBetaAI(ChessAI): \"\"\" Represents a chess AI that makes moves based on a minimax algorithm with alpha beta pruning. \"\"\" def __init__(self, evaluation_function: Callable = get_piece_square_material_score): self.depth: int = ALPHA_BETA_DEPTH self.evaluation_function: Callable = evaluation_function self.is_playing_white: bool = True def __alpha_beta(self, board: chess.Board, depth: int, alpha: float, beta: float, maximizing_player: bool) -\u003e float: \"\"\" Performs the alpha-beta pruning algorithm to determine the best move for a player given a board. Arguments: board (chess.Board): The board to evaluate depth (int): What depth to search to alpha (float): The best value that the maximizing player currently has beta (float): The best value that the minimizing player currently has maximizing_player (bool): Is this the maximizing player (i.e. white to move) Returns: (float): The alpha-beta pruning evaluation for the given player \"\"\" if depth == 0 or board.is_game_over(): return self.evaluation_function(board) legal_moves = list(board.legal_moves) if maximizing_player: value = float('-inf') for move in legal_moves: board.push(move) value = max(value, self.__alpha_beta(board, depth - 1, alpha, beta, not maximizing_player)) board.pop() alpha = max(alpha, value) if alpha \u003e= beta: break return value else: value = float('inf') for move in legal_moves: board.push(move) value = min(value, self.__alpha_beta(board, depth - 1, alpha, beta, not maximizing_player)) board.pop() beta = min(beta, value) if alpha \u003e= beta: break return value def find_move(self, board: chess.Board) -\u003e chess.Move: \"\"\" Finds the best move for a given board using alpha-beta pruning. Arguments: board (chess.Board): A board to evaluate Returns: (chess.Move): The best move given the board \"\"\" legal_moves: List[chess.Move] = list(board.legal_moves) random.shuffle(legal_moves) best_move: chess.Move = legal_moves[0] best_value: float = float('-inf') if self.is_playing_white else float('inf') for move in legal_moves: board.push(move) value: float = self.__alpha_beta(board, self.depth - 1, float('-inf'), float('inf'), not self.is_playing_white) board.pop() if (self.is_playing_white and value \u003e best_value) or (not self.is_playing_white and value \u003c best_value): best_value = value best_move = move return best_move With the increased computational efficiency of our Alpha Beta AI, we can further increase the depth to which we search. The following demonstration shows a Alpha Beta AI searching to depth 4 playing as white against a Minimax AI searching to depth 3 playing as black.\nThe game is not completely one-sided, but the Alpha Beta AI pulls out ahead thanks to its greater computational efficiency!\nImproving Evaluation: Piece Square Tables Aside from search depth, another critical aspect of building a chess AI is the evaluation function used to rate the strength of moves. An unlimited search depth is worthless if the evaluation function does a poor job of evaluation moves. Our existing evaluation function checks material score which is a good starting point, but we can add more nuance to it by introducing piece-square tables.\nWhat are Piece-Square Tables? Piece-square tables are arrays that assign values to each square on the chessboard for each type of piece. These values reflect the strategic importance of placing a specific piece on a particular square. For example, central squares are generally more valuable for pieces to occupy because it gives them more mobility and access to the rest of the board than squares closer to the edges of the board.\nHere’s an example of a piece-square table for pawns when playing as white:\n[ [ 0, 0, 0, 0, 0, 0, 0, 0,], [50, 50, 50, 50, 50, 50, 50, 50,], [10, 10, 20, 30, 30, 20, 10, 10,], [ 5, 5, 10, 25, 25, 10, 5, 5,], [ 0, 0, 0, 20, 20, 0, 0, 0,], [ 5, -5,-10, 0, 0,-10, -5, 5,], [ 5, 10, 10,-20,-20, 10, 10, 5,], [ 0, 0, 0, 0, 0, 0, 0, 0,], ] Each number represents a square on the chess board. The main idea behind piece-square tables is to add positional value to the basic material evaluation. This allows the AI to make more informed decisions based on the strategic positioning of its pieces, leading to stronger play. Bonus material value is added to squares closer to the opponent’s side to encourage pawns to push forward and promote. Rank 2 (the second to last row) adds a small amount of material value to pawns on the sides (A2, B2, C2, F2, G2, H2), as they protect the king after castling, and the center pawns (D2, E2) have negative material values, to encourage them to move and open up backline pieces.\nWe can implement piece-square tables into our evaluation function by simply adding the piece-square value of the corresponding piece and square to every piece on the board.\ndef get_piece_square_material_score(board: chess.Board) -\u003e float: \"\"\" Evaluates a chess board using chess piece values and piece-square tables. Args: board (chess.Board): A chess board to evaluate Returns: (float): The evaluation value of the board \"\"\" if board.is_checkmate(): return float('-inf') if board.turn == chess.WHITE else float('inf') elif board.is_stalemate() or board.is_insufficient_material(): return 0.0 evaluation: float = 0.0 for square in chess.SQUARES: piece: Optional[chess.Piece] = board.piece_at(square) if piece is not None: rank: int = chess.square_rank(square) file: int = chess.square_file(square) # Evaluate based on piece values color: int = 1 if piece.color == chess.WHITE else -1 evaluation += color * PIECE_VALUES[piece.piece_type] evaluation += color * PIECE_SQUARE_TABLES[piece.piece_type][piece.color][rank][file] return evaluation Piece-square tables are just one such way to improve evaluation functions. Other information such as whether a piece is protecting or pinning another piece may also improve the evaluation for a particular move.\n",
+  "wordCount" : "1199",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://angelg8.github.io/chess-ai-blog/posts/3-chess-ai/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Angel Gong",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://angelg8.github.io/chess-ai-blog/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://angelg8.github.io/chess-ai-blog/" accesskey="h" title="Angel Gong (Alt + H)">Angel Gong</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://angelg8.github.io/chess-ai-blog/">Home</a>&nbsp;»&nbsp;<a href="https://angelg8.github.io/chess-ai-blog/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Rooting for Success: Improving Tree Search 🌲
+    </h1>
+    <div class="post-meta">6 min
+
+</div>
+  </header> 
+  <div class="post-content"><h3 id="improving-computation-alpha-beta-pruning">Improving Computation: Alpha-Beta Pruning<a hidden class="anchor" aria-hidden="true" href="#improving-computation-alpha-beta-pruning">#</a></h3>
+<p>Alpha-beta pruning is an optimization to Minimax that significantly reduces the number of nodes evaluated in the search tree. It allows the algorithm to search deeper by pruning branches that can&rsquo;t influence the final decision, thereby improving computation time without affecting the result (we need to compute fewer states).</p>
+<h4 id="how-alpha-beta-pruning-works">How Alpha-Beta Pruning Works<a hidden class="anchor" aria-hidden="true" href="#how-alpha-beta-pruning-works">#</a></h4>
+<p>The idea behind alpha-beta pruning is to keep track of two values, alpha and beta, which represent the minimum score that the maximizing player is assured of (alpha) and the maximum score that the minimizing player is assured of (beta). As the search progresses, these values are updated to reflect the best scores found so far.</p>
+<p>Here’s a step-by-step explanation:</p>
+<ol>
+<li><strong>Initialization:</strong> At the root of the tree, alpha is initialized to negative infinity, and beta is initialized to positive infinity.</li>
+<li><strong>Maximizing Player&rsquo;s Turn:</strong>
+For each move, the maximizing player (let’s call this player Max) attempts to maximize their score. As Max explores each move, if a score is found that is greater than or equal to beta (the best score the minimizing player can enforce), we can stop our search early. This is because the minimizing player (Min) will avoid this path, knowing they can force a lower score elsewhere. Therfore, we update alpha to the maximum value found so far.</li>
+<li><strong>Minimizing Player&rsquo;s Turn:</strong>
+Similarly, for each move, the minimizing player (Min) attempts to minimize their score. As Min explores each move, if a score is found that is less than or equal to alpha (the best score the maximizing player can enforce), we stop our search early. Max will avoid this path, knowing they can force a higher score elsewhere. Now, we update beta to the minimum value found so far.</li>
+<li><strong>Pruning:</strong> If at any point alpha becomes greater than or equal to beta, the current branch is pruned, meaning no further nodes are explored in this branch. This is because the current path cannot improve the outcome for the current player given the best responses of the opponent.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AlphaBetaAI</span>(ChessAI):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Represents a chess AI that makes moves based on a minimax algorithm with alpha beta pruning.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, evaluation_function: Callable <span style="color:#f92672">=</span> get_piece_square_material_score):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>depth: int <span style="color:#f92672">=</span> ALPHA_BETA_DEPTH
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>evaluation_function: Callable <span style="color:#f92672">=</span> evaluation_function
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>is_playing_white: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__alpha_beta</span>(self, board: chess<span style="color:#f92672">.</span>Board, depth: int, alpha: float, beta: float, maximizing_player: bool) <span style="color:#f92672">-&gt;</span> float:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Performs the alpha-beta pruning algorithm to determine the best move for a player given a board.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Arguments:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            board (chess.Board): The board to evaluate
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            depth (int): What depth to search to
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            alpha (float): The best value that the maximizing player currently has
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            beta (float): The best value that the minimizing player currently has
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            maximizing_player (bool): Is this the maximizing player (i.e. white to move)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            (float): The alpha-beta pruning evaluation for the given player
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> depth <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> board<span style="color:#f92672">.</span>is_game_over():
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>evaluation_function(board)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        legal_moves <span style="color:#f92672">=</span> list(board<span style="color:#f92672">.</span>legal_moves)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> maximizing_player:
+</span></span><span style="display:flex;"><span>            value <span style="color:#f92672">=</span> float(<span style="color:#e6db74">&#39;-inf&#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> move <span style="color:#f92672">in</span> legal_moves:
+</span></span><span style="display:flex;"><span>                board<span style="color:#f92672">.</span>push(move)
+</span></span><span style="display:flex;"><span>                value <span style="color:#f92672">=</span> max(value, self<span style="color:#f92672">.</span>__alpha_beta(board, depth <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, alpha, beta, <span style="color:#f92672">not</span> maximizing_player))
+</span></span><span style="display:flex;"><span>                board<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>                alpha <span style="color:#f92672">=</span> max(alpha, value)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> alpha <span style="color:#f92672">&gt;=</span> beta:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> value
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            value <span style="color:#f92672">=</span> float(<span style="color:#e6db74">&#39;inf&#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> move <span style="color:#f92672">in</span> legal_moves:
+</span></span><span style="display:flex;"><span>                board<span style="color:#f92672">.</span>push(move)
+</span></span><span style="display:flex;"><span>                value <span style="color:#f92672">=</span> min(value, self<span style="color:#f92672">.</span>__alpha_beta(board, depth <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, alpha, beta, <span style="color:#f92672">not</span> maximizing_player))
+</span></span><span style="display:flex;"><span>                board<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>                beta <span style="color:#f92672">=</span> min(beta, value)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> alpha <span style="color:#f92672">&gt;=</span> beta:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> value
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">find_move</span>(self, board: chess<span style="color:#f92672">.</span>Board) <span style="color:#f92672">-&gt;</span> chess<span style="color:#f92672">.</span>Move:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Finds the best move for a given board using alpha-beta pruning.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Arguments:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            board (chess.Board): A board to evaluate
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            (chess.Move): The best move given the board
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        legal_moves: List[chess<span style="color:#f92672">.</span>Move] <span style="color:#f92672">=</span> list(board<span style="color:#f92672">.</span>legal_moves)
+</span></span><span style="display:flex;"><span>        random<span style="color:#f92672">.</span>shuffle(legal_moves)
+</span></span><span style="display:flex;"><span>        best_move: chess<span style="color:#f92672">.</span>Move <span style="color:#f92672">=</span> legal_moves[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>        best_value: float <span style="color:#f92672">=</span> float(<span style="color:#e6db74">&#39;-inf&#39;</span>) <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>is_playing_white <span style="color:#66d9ef">else</span> float(<span style="color:#e6db74">&#39;inf&#39;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> move <span style="color:#f92672">in</span> legal_moves:
+</span></span><span style="display:flex;"><span>            board<span style="color:#f92672">.</span>push(move)
+</span></span><span style="display:flex;"><span>            value: float <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__alpha_beta(board, self<span style="color:#f92672">.</span>depth <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, float(<span style="color:#e6db74">&#39;-inf&#39;</span>), float(<span style="color:#e6db74">&#39;inf&#39;</span>), <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>is_playing_white)
+</span></span><span style="display:flex;"><span>            board<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (self<span style="color:#f92672">.</span>is_playing_white <span style="color:#f92672">and</span> value <span style="color:#f92672">&gt;</span> best_value) <span style="color:#f92672">or</span> (<span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>is_playing_white <span style="color:#f92672">and</span> value <span style="color:#f92672">&lt;</span> best_value):
+</span></span><span style="display:flex;"><span>                best_value <span style="color:#f92672">=</span> value
+</span></span><span style="display:flex;"><span>                best_move <span style="color:#f92672">=</span> move
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> best_move
+</span></span></code></pre></div><p>With the increased computational efficiency of our Alpha Beta AI, we can further increase the depth to which we search. The following demonstration shows a Alpha Beta AI searching to depth 4 playing as white against a Minimax AI searching to depth 3 playing as black.</p>
+
+
+
+
+
+<center>
+    <iframe width="482" height="480" src="https://www.youtube.com/embed/j2poS50WmpY?modestbranding=1"
+        frameborder="0" allowfullscreen></iframe>
+</center>
+<p>The game is not completely one-sided, but the Alpha Beta AI pulls out ahead thanks to its greater computational efficiency!</p>
+<hr>
+<h3 id="improving-evaluation-piece-square-tables">Improving Evaluation: Piece Square Tables<a hidden class="anchor" aria-hidden="true" href="#improving-evaluation-piece-square-tables">#</a></h3>
+<p>Aside from search depth, another critical aspect of building a chess AI is the evaluation function used to rate the strength of moves. An unlimited search depth is worthless if the evaluation function does a poor job of evaluation moves. Our existing evaluation function checks material score which is a good starting point, but we can add more nuance to it by introducing piece-square tables.</p>
+<h4 id="what-are-piece-square-tables">What are Piece-Square Tables?<a hidden class="anchor" aria-hidden="true" href="#what-are-piece-square-tables">#</a></h4>
+<p>Piece-square tables are arrays that assign values to each square on the chessboard for each type of piece. These values reflect the strategic importance of placing a specific piece on a particular square. For example, central squares are generally more valuable for pieces to occupy because it gives them more mobility and access to the rest of the board than squares closer to the edges of the board.</p>
+<p>Here’s an example of a piece-square table for pawns when playing as white:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>    [ <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,],
+</span></span><span style="display:flex;"><span>    [<span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">50</span>,],
+</span></span><span style="display:flex;"><span>    [<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>,],
+</span></span><span style="display:flex;"><span>    [ <span style="color:#ae81ff">5</span>,  <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">10</span>,  <span style="color:#ae81ff">5</span>,  <span style="color:#ae81ff">5</span>,],
+</span></span><span style="display:flex;"><span>    [ <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,],
+</span></span><span style="display:flex;"><span>    [ <span style="color:#ae81ff">5</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>,  <span style="color:#ae81ff">5</span>,],
+</span></span><span style="display:flex;"><span>    [ <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">20</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>,  <span style="color:#ae81ff">5</span>,],
+</span></span><span style="display:flex;"><span>    [ <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">0</span>,],
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>Each number represents a square on the chess board. The main idea behind piece-square tables is to add positional value to the basic material evaluation. This allows the AI to make more informed decisions based on the strategic positioning of its pieces, leading to stronger play. Bonus material value is added to squares closer to the opponent&rsquo;s side to encourage pawns to push forward and promote. Rank 2 (the second to last row) adds a small amount of material value to pawns on the sides (A2, B2, C2, F2, G2, H2), as they protect the king after castling, and the center pawns (D2, E2) have negative material values, to encourage them to move and open up backline pieces.</p>
+<p>We can implement piece-square tables into our evaluation function by simply adding the piece-square value of the corresponding piece and square to every piece on the board.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_piece_square_material_score</span>(board: chess<span style="color:#f92672">.</span>Board) <span style="color:#f92672">-&gt;</span> float:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Evaluates a chess board using chess piece values and piece-square tables.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        board (chess.Board): A chess board to evaluate
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        (float): The evaluation value of the board
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> board<span style="color:#f92672">.</span>is_checkmate():
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> float(<span style="color:#e6db74">&#39;-inf&#39;</span>) <span style="color:#66d9ef">if</span> board<span style="color:#f92672">.</span>turn <span style="color:#f92672">==</span> chess<span style="color:#f92672">.</span>WHITE <span style="color:#66d9ef">else</span> float(<span style="color:#e6db74">&#39;inf&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> board<span style="color:#f92672">.</span>is_stalemate() <span style="color:#f92672">or</span> board<span style="color:#f92672">.</span>is_insufficient_material():
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    evaluation: float <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> square <span style="color:#f92672">in</span> chess<span style="color:#f92672">.</span>SQUARES:
+</span></span><span style="display:flex;"><span>        piece: Optional[chess<span style="color:#f92672">.</span>Piece] <span style="color:#f92672">=</span> board<span style="color:#f92672">.</span>piece_at(square)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> piece <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            rank: int <span style="color:#f92672">=</span> chess<span style="color:#f92672">.</span>square_rank(square)
+</span></span><span style="display:flex;"><span>            file: int <span style="color:#f92672">=</span> chess<span style="color:#f92672">.</span>square_file(square)
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Evaluate based on piece values</span>
+</span></span><span style="display:flex;"><span>            color: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> piece<span style="color:#f92672">.</span>color <span style="color:#f92672">==</span> chess<span style="color:#f92672">.</span>WHITE <span style="color:#66d9ef">else</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            evaluation <span style="color:#f92672">+=</span> color <span style="color:#f92672">*</span> PIECE_VALUES[piece<span style="color:#f92672">.</span>piece_type]
+</span></span><span style="display:flex;"><span>            evaluation <span style="color:#f92672">+=</span> color <span style="color:#f92672">*</span> PIECE_SQUARE_TABLES[piece<span style="color:#f92672">.</span>piece_type][piece<span style="color:#f92672">.</span>color][rank][file]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> evaluation
+</span></span></code></pre></div><p>Piece-square tables are just one such way to improve evaluation functions. Other information such as whether a piece is protecting or pinning another piece may also improve the evaluation for a particular move.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://angelg8.github.io/chess-ai-blog/posts/2-chess-ai/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Chess AI Essentials: From Randomness to Strategy 🎲</span>
+  </a>
+  <a class="next" href="https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Neural Networks: A Deep Dive into Deep Learning 🤖</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://angelg8.github.io/chess-ai-blog/">Angel Gong</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

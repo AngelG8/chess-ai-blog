@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Simulation Data: Stats For Nerds 📊 | Angel Gong</title>
+<meta name="keywords" content="">
+<meta name="description" content="Simulating Games To measure the performance of our different chess AI&rsquo;s, we can simulate several thousands of games between the AI&rsquo;s using multi-threading. The full implementation can be found in the GitHub repository. The results of these simulations have been compiled into bar graphs below.
+Simulation code:
+class ChessGUI: &#34;&#34;&#34; A GUI that plays a game of chess. Attributes: player_one_human (bool): Whether player one is a human or computer player_two_human (bool): Whether player two is a human or computer computer_one_ai (ChessAI): What chess AI is player one (given they are a computer)?">
+<meta name="author" content="">
+<link rel="canonical" href="https://angelg8.github.io/chess-ai-blog/posts/5-chess-ai/">
+<link crossorigin="anonymous" href="/chess-ai-blog/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://angelg8.github.io/chess-ai-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://angelg8.github.io/chess-ai-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://angelg8.github.io/chess-ai-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://angelg8.github.io/chess-ai-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="https://angelg8.github.io/chess-ai-blog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://angelg8.github.io/chess-ai-blog/posts/5-chess-ai/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="Simulation Data: Stats For Nerds 📊" />
+<meta property="og:description" content="Simulating Games To measure the performance of our different chess AI&rsquo;s, we can simulate several thousands of games between the AI&rsquo;s using multi-threading. The full implementation can be found in the GitHub repository. The results of these simulations have been compiled into bar graphs below.
+Simulation code:
+class ChessGUI: &#34;&#34;&#34; A GUI that plays a game of chess. Attributes: player_one_human (bool): Whether player one is a human or computer player_two_human (bool): Whether player two is a human or computer computer_one_ai (ChessAI): What chess AI is player one (given they are a computer)?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://angelg8.github.io/chess-ai-blog/posts/5-chess-ai/" /><meta property="article:section" content="posts" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Simulation Data: Stats For Nerds 📊"/>
+<meta name="twitter:description" content="Simulating Games To measure the performance of our different chess AI&rsquo;s, we can simulate several thousands of games between the AI&rsquo;s using multi-threading. The full implementation can be found in the GitHub repository. The results of these simulations have been compiled into bar graphs below.
+Simulation code:
+class ChessGUI: &#34;&#34;&#34; A GUI that plays a game of chess. Attributes: player_one_human (bool): Whether player one is a human or computer player_two_human (bool): Whether player two is a human or computer computer_one_ai (ChessAI): What chess AI is player one (given they are a computer)?"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://angelg8.github.io/chess-ai-blog/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Simulation Data: Stats For Nerds 📊",
+      "item": "https://angelg8.github.io/chess-ai-blog/posts/5-chess-ai/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Simulation Data: Stats For Nerds 📊",
+  "name": "Simulation Data: Stats For Nerds 📊",
+  "description": "Simulating Games To measure the performance of our different chess AI\u0026rsquo;s, we can simulate several thousands of games between the AI\u0026rsquo;s using multi-threading. The full implementation can be found in the GitHub repository. The results of these simulations have been compiled into bar graphs below.\nSimulation code:\nclass ChessGUI: \u0026#34;\u0026#34;\u0026#34; A GUI that plays a game of chess. Attributes: player_one_human (bool): Whether player one is a human or computer player_two_human (bool): Whether player two is a human or computer computer_one_ai (ChessAI): What chess AI is player one (given they are a computer)?",
+  "keywords": [
+    
+  ],
+  "articleBody": "Simulating Games To measure the performance of our different chess AI’s, we can simulate several thousands of games between the AI’s using multi-threading. The full implementation can be found in the GitHub repository. The results of these simulations have been compiled into bar graphs below.\nSimulation code:\nclass ChessGUI: \"\"\" A GUI that plays a game of chess. Attributes: player_one_human (bool): Whether player one is a human or computer player_two_human (bool): Whether player two is a human or computer computer_one_ai (ChessAI): What chess AI is player one (given they are a computer)? computer_two_ai (ChessAI): What chess AI is player two (given they are a computer)? animated (bool): Whether to animate chess moves (for GUI only) selected_piece (Optional[Piece]): Which piece a player has selected (if any) move_to_play (Optional[Move]): A chess move for the current player to make moves_made (List[Move]): A log of moves made in the game so far board (Board): The chess board the game is being played on screen (Surface): A pygame surface that displays the game clock (Clock): A pygame clock to keep track of timed GUI events (e.g. animating frames) \"\"\" def __init__(self): self.player_one_human: bool = True self.player_two_human: bool = False self.computer_one_ai: ChessAI = AlphaBetaAI() self.computer_two_ai: ChessAI = AlphaBetaAI() self.animated: bool = True self.selected_piece: Optional[chess.Piece] = None self.move_to_play: Optional[chess.Move] = None self.moves_made: List[chess.Move] = [] self.board: chess.Board = chess.Board() pygame.init() pygame.display.set_caption(\"Chess Game\") self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), TITLE_BAR) self.clock: pygame.time.Clock = pygame.time.Clock() def simulate_games_parallel(self, file_path: str, num_games: int=104, num_processes: int=8) -\u003e None: \"\"\" Run a simulation between two chess AIs. Arguments: file_path (str): A file path to write the results to. num_games (int): How many simulations to run. num_processes (int): How many processes to use to parallelize the workload. \"\"\" self.screen = None self.clock = None pool = multiprocessing.Pool(processes=num_processes) games_per_process = num_games // num_processes results = pool.starmap(self.run_simulation_batch, [(file_path, games_per_process)] * num_processes) pool.close() pool.join() wins_player_one = sum(result[0] for result in results) wins_player_two = sum(result[1] for result in results) draws = sum(result[2] for result in results) print(f\"Player One Wins: {wins_player_one}\") print(f\"Player Two Wins: {wins_player_two}\") print(f\"Draws: {draws}\") file = open(file_path, \"a+\") file.write(f\"Player One Wins: {wins_player_one}\\n\") file.write(f\"Player Two Wins: {wins_player_two}\\n\") file.write(f\"Game Ended in Draw: {draws}\\n\") def run_simulation_batch(self, file_path: str, num_games: int) -\u003e Tuple[int, int, int]: \"\"\" Runs a batch of simulations. Arguments: file_path (str): A file path to write the results to. num_games (int): How many simulations to run. Returns: (Tuple[int, int, int]): The number of games player one won, the number of games player two won, the number of draws \"\"\" file = open(file_path, \"a+\") wins_player_one: int = 0 wins_player_two: int = 0 draws: int = 0 for _ in range(num_games): self.board = chess.Board() self.moves_made = [] self.selected_piece = None self.move_to_play = None while not self.board.is_game_over(): if self.board.turn == chess.WHITE: move = self.computer_one_ai.find_move(self.board) else: move = self.computer_two_ai.find_move(self.board) self.board.push(move) self.moves_made.append(copy(move)) if self.board.is_checkmate(): winner = \"White\" if self.board.turn == chess.BLACK else \"Black\" if winner == \"White\": wins_player_one += 1 print(\"Player One Won\") else: wins_player_two += 1 print(\"Player Two Won\") else: draws += 1 print(\"Game Ended in Draw\") file.close() return wins_player_one, wins_player_two, draws if __name__ == \"__main__\": chess_gui = ChessGUI() chess_gui.player_one_human = False chess_gui.player_two_human = False chess_gui.animated = False chess_gui.computer_one_ai = RandomAI() chess_gui.computer_two_ai = RandomAI() # Run simulations and record the results in a text file current_path: str = os.path.abspath(__file__) file_path: str = os.path.join(os.path.dirname(current_path), 'simulation', \"random_vs_random.txt\") chess_gui.simulate_games_parallel(file_path=file_path, num_games=104, num_processes=8) As we might expect, Random vs Random leads to many draws, as random moves will often not lead to checkmate, and instead a draw condition such as the 75 move limit. Actual victories are split evenly between the two AI’s. Once we introduce strategy into the AI, the Minimax AI almost always beats the Random AI. Interestingly, by increasing the depth by 1 in our AlphaBeta AI, it almost always wins over the Minimax AI. This illustrates the importance of search depths at particularly low depths, as that is when we have the least information to make an accurate evaluation of a move. Similarly, we see that a depth 4 AlphaBeta AI consistently beats the Minimax AI searching to a depth of 3. The Minimax AI wins more games and forces more draws than before as a result of their higher search depth. This pattern will likely continue as the search depth of the AI’s are increased (is there really any difference between searching to a depth of 1,000 vs a depth of 1,001?). A simply tweak to our evaluation function has given a noticeable boost to the AlphaBeta AI’s performance. Compared to the the basic material score evaluation, the AlphaBeta using piece square tables wins almost twice as often. Granted the CNN uses no theory or strategy and learns to play solely by analyzing game data, it shows some basic understanding of how to play chess, and as a result, can beat out a Random AI. As mentioned previously, due to its endgame habits and inability to understand how to deliver a checkmate, it often forces draws. The AlphaBeta AI will consistently win against the CNN AI, however, although the CNN AI does not often win, it can sometimes force draws. ",
+  "wordCount" : "838",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://angelg8.github.io/chess-ai-blog/posts/5-chess-ai/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Angel Gong",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://angelg8.github.io/chess-ai-blog/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://angelg8.github.io/chess-ai-blog/" accesskey="h" title="Angel Gong (Alt + H)">Angel Gong</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://angelg8.github.io/chess-ai-blog/">Home</a>&nbsp;»&nbsp;<a href="https://angelg8.github.io/chess-ai-blog/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Simulation Data: Stats For Nerds 📊
+    </h1>
+    <div class="post-meta">4 min
+
+</div>
+  </header> 
+  <div class="post-content"><h3 id="simulating-games">Simulating Games<a hidden class="anchor" aria-hidden="true" href="#simulating-games">#</a></h3>
+<p>To measure the performance of our different chess AI&rsquo;s, we can simulate several thousands of games between the AI&rsquo;s using multi-threading. The full implementation can be found in the <a href="https://github.com/AngelG8/chess-neural-network">GitHub</a> repository. The results of these simulations have been compiled into bar graphs below.</p>
+<p>Simulation code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ChessGUI</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    A GUI that plays a game of chess.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Attributes:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        player_one_human (bool): Whether player one is a human or computer
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        player_two_human (bool): Whether player two is a human or computer
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        computer_one_ai (ChessAI): What chess AI is player one (given they are a computer)?
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        computer_two_ai (ChessAI): What chess AI is player two (given they are a computer)?
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        animated (bool): Whether to animate chess moves (for GUI only)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        selected_piece (Optional[Piece]): Which piece a player has selected (if any)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        move_to_play (Optional[Move]): A chess move for the current player to make
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        moves_made (List[Move]): A log of moves made in the game so far
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        board (Board): The chess board the game is being played on
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        screen (Surface): A pygame surface that displays the game
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        clock (Clock): A pygame clock to keep track of timed GUI events (e.g. animating frames)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>player_one_human: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>player_two_human: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>computer_one_ai: ChessAI <span style="color:#f92672">=</span> AlphaBetaAI()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>computer_two_ai: ChessAI <span style="color:#f92672">=</span> AlphaBetaAI()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>animated: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>selected_piece: Optional[chess<span style="color:#f92672">.</span>Piece] <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>move_to_play: Optional[chess<span style="color:#f92672">.</span>Move] <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>moves_made: List[chess<span style="color:#f92672">.</span>Move] <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>board: chess<span style="color:#f92672">.</span>Board <span style="color:#f92672">=</span> chess<span style="color:#f92672">.</span>Board()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        pygame<span style="color:#f92672">.</span>init()
+</span></span><span style="display:flex;"><span>        pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74">&#34;Chess Game&#34;</span>)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>screen: pygame<span style="color:#f92672">.</span>Surface <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((WIDTH, HEIGHT), TITLE_BAR)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>clock: pygame<span style="color:#f92672">.</span>time<span style="color:#f92672">.</span>Clock <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>time<span style="color:#f92672">.</span>Clock()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">simulate_games_parallel</span>(self, file_path: str, num_games: int<span style="color:#f92672">=</span><span style="color:#ae81ff">104</span>, num_processes: int<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            Run a simulation between two chess AIs.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            Arguments:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                file_path (str): A file path to write the results to.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                num_games (int): How many simulations to run.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                num_processes (int): How many processes to use to parallelize the workload.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>screen <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>clock <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>            pool <span style="color:#f92672">=</span> multiprocessing<span style="color:#f92672">.</span>Pool(processes<span style="color:#f92672">=</span>num_processes)
+</span></span><span style="display:flex;"><span>            games_per_process <span style="color:#f92672">=</span> num_games <span style="color:#f92672">//</span> num_processes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            results <span style="color:#f92672">=</span> pool<span style="color:#f92672">.</span>starmap(self<span style="color:#f92672">.</span>run_simulation_batch, [(file_path, games_per_process)] <span style="color:#f92672">*</span> num_processes)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            pool<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>            pool<span style="color:#f92672">.</span>join()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            wins_player_one <span style="color:#f92672">=</span> sum(result[<span style="color:#ae81ff">0</span>] <span style="color:#66d9ef">for</span> result <span style="color:#f92672">in</span> results)
+</span></span><span style="display:flex;"><span>            wins_player_two <span style="color:#f92672">=</span> sum(result[<span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">for</span> result <span style="color:#f92672">in</span> results)
+</span></span><span style="display:flex;"><span>            draws <span style="color:#f92672">=</span> sum(result[<span style="color:#ae81ff">2</span>] <span style="color:#66d9ef">for</span> result <span style="color:#f92672">in</span> results)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Player One Wins: </span><span style="color:#e6db74">{</span>wins_player_one<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Player Two Wins: </span><span style="color:#e6db74">{</span>wins_player_two<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Draws: </span><span style="color:#e6db74">{</span>draws<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            file <span style="color:#f92672">=</span> open(file_path, <span style="color:#e6db74">&#34;a+&#34;</span>)
+</span></span><span style="display:flex;"><span>            file<span style="color:#f92672">.</span>write(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Player One Wins: </span><span style="color:#e6db74">{</span>wins_player_one<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            file<span style="color:#f92672">.</span>write(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Player Two Wins: </span><span style="color:#e6db74">{</span>wins_player_two<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            file<span style="color:#f92672">.</span>write(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Game Ended in Draw: </span><span style="color:#e6db74">{</span>draws<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_simulation_batch</span>(self, file_path: str, num_games: int) <span style="color:#f92672">-&gt;</span> Tuple[int, int, int]:
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            Runs a batch of simulations.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            Arguments:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                file_path (str): A file path to write the results to.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                num_games (int): How many simulations to run.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                (Tuple[int, int, int]): The number of games player one won, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                                        the number of games player two won,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                                        the number of draws
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>            file <span style="color:#f92672">=</span> open(file_path, <span style="color:#e6db74">&#34;a+&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            wins_player_one: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            wins_player_two: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            draws: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(num_games):
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>board <span style="color:#f92672">=</span> chess<span style="color:#f92672">.</span>Board()
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>moves_made <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>selected_piece <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>move_to_play <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">while</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>board<span style="color:#f92672">.</span>is_game_over():
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>board<span style="color:#f92672">.</span>turn <span style="color:#f92672">==</span> chess<span style="color:#f92672">.</span>WHITE:
+</span></span><span style="display:flex;"><span>                        move <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>computer_one_ai<span style="color:#f92672">.</span>find_move(self<span style="color:#f92672">.</span>board)
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                        move <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>computer_two_ai<span style="color:#f92672">.</span>find_move(self<span style="color:#f92672">.</span>board)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    self<span style="color:#f92672">.</span>board<span style="color:#f92672">.</span>push(move)
+</span></span><span style="display:flex;"><span>                    self<span style="color:#f92672">.</span>moves_made<span style="color:#f92672">.</span>append(copy(move))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>board<span style="color:#f92672">.</span>is_checkmate():
+</span></span><span style="display:flex;"><span>                    winner <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;White&#34;</span> <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>board<span style="color:#f92672">.</span>turn <span style="color:#f92672">==</span> chess<span style="color:#f92672">.</span>BLACK <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;Black&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> winner <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;White&#34;</span>:
+</span></span><span style="display:flex;"><span>                        wins_player_one <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>                        print(<span style="color:#e6db74">&#34;Player One Won&#34;</span>)
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                        wins_player_two <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>                        print(<span style="color:#e6db74">&#34;Player Two Won&#34;</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                    draws <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>                    print(<span style="color:#e6db74">&#34;Game Ended in Draw&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            file<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> wins_player_one, wins_player_two, draws
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    chess_gui <span style="color:#f92672">=</span> ChessGUI()
+</span></span><span style="display:flex;"><span>    chess_gui<span style="color:#f92672">.</span>player_one_human <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>    chess_gui<span style="color:#f92672">.</span>player_two_human <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>    chess_gui<span style="color:#f92672">.</span>animated <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>    chess_gui<span style="color:#f92672">.</span>computer_one_ai <span style="color:#f92672">=</span> RandomAI()
+</span></span><span style="display:flex;"><span>    chess_gui<span style="color:#f92672">.</span>computer_two_ai <span style="color:#f92672">=</span> RandomAI()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Run simulations and record the results in a text file</span>
+</span></span><span style="display:flex;"><span>    current_path: str <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(__file__)
+</span></span><span style="display:flex;"><span>    file_path: str <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(current_path), <span style="color:#e6db74">&#39;simulation&#39;</span>, <span style="color:#e6db74">&#34;random_vs_random.txt&#34;</span>)
+</span></span><span style="display:flex;"><span>    chess_gui<span style="color:#f92672">.</span>simulate_games_parallel(file_path<span style="color:#f92672">=</span>file_path, num_games<span style="color:#f92672">=</span><span style="color:#ae81ff">104</span>, num_processes<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>)
+</span></span></code></pre></div><p>As we might expect, Random vs Random leads to many draws, as random moves will often not lead to checkmate, and instead a draw condition such as the 75 move limit. Actual victories are split evenly between the two AI&rsquo;s.
+
+
+
+
+
+
+<figure style="text-align: center;">
+    <img src="/chess-ai-blog/images/random_vs_random.png" alt="Random vs Random" width="480" height="480"
+        style="margin: 0 auto">
+    <figcaption style="text-align: center;"></figcaption>
+</figure></p>
+<p>Once we introduce strategy into the AI, the Minimax AI almost always beats the Random AI.
+
+
+
+
+
+
+<figure style="text-align: center;">
+    <img src="/chess-ai-blog/images/minimax_vs_random.png" alt="Minimax vs Random" width="480" height="480"
+        style="margin: 0 auto">
+    <figcaption style="text-align: center;"></figcaption>
+</figure></p>
+<p>Interestingly, by increasing the depth by 1 in our AlphaBeta AI, it almost always wins over the Minimax AI. This illustrates the importance of search depths at particularly low depths, as that is when we have the least information to make an accurate evaluation of a move.
+
+
+
+
+
+
+<figure style="text-align: center;">
+    <img src="/chess-ai-blog/images/minimax_vs_alphabeta.png" alt="Minimax vs AlphaBeta" width="480" height="480"
+        style="margin: 0 auto">
+    <figcaption style="text-align: center;"></figcaption>
+</figure></p>
+<p>Similarly, we see that a depth 4 AlphaBeta AI consistently beats the Minimax AI searching to a depth of 3. The Minimax AI wins more games and forces more draws than before as a result of their higher search depth. This pattern will likely continue as the search depth of the AI&rsquo;s are increased (is there really any difference between searching to a depth of 1,000 vs a depth of 1,001?).
+
+
+
+
+
+
+<figure style="text-align: center;">
+    <img src="/chess-ai-blog/images/minimax_d3_vs_alphabeta_d4.png" alt="Minimax (Depth 3) vs AlphaBeta (Depth 4)" width="480" height="480"
+        style="margin: 0 auto">
+    <figcaption style="text-align: center;"></figcaption>
+</figure></p>
+<p>A simply tweak to our evaluation function has given a noticeable boost to the AlphaBeta AI&rsquo;s performance. Compared to the the basic material score evaluation, the AlphaBeta using piece square tables wins almost twice as often.
+
+
+
+
+
+
+<figure style="text-align: center;">
+    <img src="/chess-ai-blog/images/alphabeta_material_score_vs_alphabeta_piece_square.png" alt="AlphaBeta Material Score vs AlphaBeta Piece Square" width="480" height="480"
+        style="margin: 0 auto">
+    <figcaption style="text-align: center;"></figcaption>
+</figure></p>
+<p>Granted the CNN uses no theory or strategy and learns to play solely by analyzing game data, it shows some basic understanding of how to play chess, and as a result, can beat out a Random AI. As mentioned previously, due to its endgame habits and inability to understand how to deliver a checkmate, it often forces draws.
+
+
+
+
+
+
+<figure style="text-align: center;">
+    <img src="/chess-ai-blog/images/random_vs_cnn.png" alt="Random vs CNN" width="480" height="480"
+        style="margin: 0 auto">
+    <figcaption style="text-align: center;"></figcaption>
+</figure></p>
+<p>The AlphaBeta AI will consistently win against the CNN AI, however, although the CNN AI does not often win, it can sometimes force draws.
+
+
+
+
+
+
+<figure style="text-align: center;">
+    <img src="/chess-ai-blog/images/alphabeta_vs_cnn.png" alt="AlphaBeta vs CNN" width="480" height="480"
+        style="margin: 0 auto">
+    <figcaption style="text-align: center;"></figcaption>
+</figure></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Neural Networks: A Deep Dive into Deep Learning 🤖</span>
+  </a>
+  <a class="next" href="https://angelg8.github.io/chess-ai-blog/posts/6-epilogue/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Endgame: The Journey Ahead 🎉</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://angelg8.github.io/chess-ai-blog/">Angel Gong</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

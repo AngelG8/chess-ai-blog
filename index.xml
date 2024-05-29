@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Angel Gong</title>
+    <link>https://angelg8.github.io/chess-ai-blog/</link>
+    <description>Recent content on Angel Gong</description>
+    <generator>Hugo -- 0.126.1</generator>
+    <language>en-us</language>
+    <atom:link href="https://angelg8.github.io/chess-ai-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The First Move: Angel&#39;s Gambit ♟️</title>
+      <link>https://angelg8.github.io/chess-ai-blog/posts/1-prologue/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://angelg8.github.io/chess-ai-blog/posts/1-prologue/</guid>
+      <description>Motivation In the world of computer science, every project begins with that crucial first step—a momentous decision that sets the course for the entire endeavor. But what about the steps that come before the first? The clandestine calculations, the silent strategems, the hidden algorithms?
+As any seasoned chess player knows, the path to victory is paved with countless possibilities. Nonetheless, every path begins at the critical first move. For us computer scientists however, our journey begins on the elusive zeroth move.</description>
+    </item>
+    <item>
+      <title>Chess AI Essentials: From Randomness to Strategy 🎲</title>
+      <link>https://angelg8.github.io/chess-ai-blog/posts/2-chess-ai/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://angelg8.github.io/chess-ai-blog/posts/2-chess-ai/</guid>
+      <description>What Makes a Chess AI? Creating an effective Chess AI involves understanding and implementing several core principles. In this section, we will introduce the fundamental aspects that enable a Chess AI to function, including the necessity of making moves, leveraging Python&amp;rsquo;s chess library, and the importance of move evaluation.
+1. Reading the Board The core of any Chess AI is its ability to make decisions and execute moves on the chessboard autonomously.</description>
+    </item>
+    <item>
+      <title>Rooting for Success: Improving Tree Search 🌲</title>
+      <link>https://angelg8.github.io/chess-ai-blog/posts/3-chess-ai/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://angelg8.github.io/chess-ai-blog/posts/3-chess-ai/</guid>
+      <description>Improving Computation: Alpha-Beta Pruning Alpha-beta pruning is an optimization to Minimax that significantly reduces the number of nodes evaluated in the search tree. It allows the algorithm to search deeper by pruning branches that can&amp;rsquo;t influence the final decision, thereby improving computation time without affecting the result (we need to compute fewer states).
+How Alpha-Beta Pruning Works The idea behind alpha-beta pruning is to keep track of two values, alpha and beta, which represent the minimum score that the maximizing player is assured of (alpha) and the maximum score that the minimizing player is assured of (beta).</description>
+    </item>
+    <item>
+      <title>Neural Networks: A Deep Dive into Deep Learning 🤖</title>
+      <link>https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/</guid>
+      <description>What is a Neural Network? Neural networks are machine learning models inspired by the human brain. They consist of layers of interconnected nodes (neurons) and learn to make predictions by identifying patterns in data. Through training on labeled datasets, these networks adjust the connections (weights) between nodes to minimize prediction errors. This iterative process, often using techniques like backpropagation, tunes the model for better performance.
+For our chess AI, we will utilize convolutional neural networks (CNNs), specialized neural networks designed for grid-like data, such as images or chess boards and are used to spatial patterns.</description>
+    </item>
+    <item>
+      <title>Simulation Data: Stats For Nerds 📊</title>
+      <link>https://angelg8.github.io/chess-ai-blog/posts/5-chess-ai/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://angelg8.github.io/chess-ai-blog/posts/5-chess-ai/</guid>
+      <description>Simulating Games To measure the performance of our different chess AI&amp;rsquo;s, we can simulate several thousands of games between the AI&amp;rsquo;s using multi-threading. The full implementation can be found in the GitHub repository. The results of these simulations have been compiled into bar graphs below.
+Simulation code:
+class ChessGUI: &amp;#34;&amp;#34;&amp;#34; A GUI that plays a game of chess. Attributes: player_one_human (bool): Whether player one is a human or computer player_two_human (bool): Whether player two is a human or computer computer_one_ai (ChessAI): What chess AI is player one (given they are a computer)?</description>
+    </item>
+    <item>
+      <title>Endgame: The Journey Ahead 🎉</title>
+      <link>https://angelg8.github.io/chess-ai-blog/posts/6-epilogue/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://angelg8.github.io/chess-ai-blog/posts/6-epilogue/</guid>
+      <description>Conclusion As I reach the end of this project, it&amp;rsquo;s a good time to reflect on what I&amp;rsquo;ve learned and where this journey might lead next. Building a chess AI has been both challenging and rewarding, providing insights into AI development, game theory, and the nuances of chess itself.
+Incorporating an Opening Dictionary One improvement that can be made is the integration of an opening dictionary. Opening theory is a critical aspect of chess, with a vast amount of knowledge accumulated over centuries of play.</description>
+    </item>
+  </channel>
+</rss>

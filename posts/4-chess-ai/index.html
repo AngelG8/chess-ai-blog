@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Neural Networks: A Deep Dive into Deep Learning 🤖 | Angel Gong</title>
+<meta name="keywords" content="">
+<meta name="description" content="What is a Neural Network? Neural networks are machine learning models inspired by the human brain. They consist of layers of interconnected nodes (neurons) and learn to make predictions by identifying patterns in data. Through training on labeled datasets, these networks adjust the connections (weights) between nodes to minimize prediction errors. This iterative process, often using techniques like backpropagation, tunes the model for better performance.
+For our chess AI, we will utilize convolutional neural networks (CNNs), specialized neural networks designed for grid-like data, such as images or chess boards and are used to spatial patterns.">
+<meta name="author" content="">
+<link rel="canonical" href="https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/">
+<link crossorigin="anonymous" href="/chess-ai-blog/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://angelg8.github.io/chess-ai-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://angelg8.github.io/chess-ai-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://angelg8.github.io/chess-ai-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://angelg8.github.io/chess-ai-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="https://angelg8.github.io/chess-ai-blog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="Neural Networks: A Deep Dive into Deep Learning 🤖" />
+<meta property="og:description" content="What is a Neural Network? Neural networks are machine learning models inspired by the human brain. They consist of layers of interconnected nodes (neurons) and learn to make predictions by identifying patterns in data. Through training on labeled datasets, these networks adjust the connections (weights) between nodes to minimize prediction errors. This iterative process, often using techniques like backpropagation, tunes the model for better performance.
+For our chess AI, we will utilize convolutional neural networks (CNNs), specialized neural networks designed for grid-like data, such as images or chess boards and are used to spatial patterns." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/" /><meta property="article:section" content="posts" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Neural Networks: A Deep Dive into Deep Learning 🤖"/>
+<meta name="twitter:description" content="What is a Neural Network? Neural networks are machine learning models inspired by the human brain. They consist of layers of interconnected nodes (neurons) and learn to make predictions by identifying patterns in data. Through training on labeled datasets, these networks adjust the connections (weights) between nodes to minimize prediction errors. This iterative process, often using techniques like backpropagation, tunes the model for better performance.
+For our chess AI, we will utilize convolutional neural networks (CNNs), specialized neural networks designed for grid-like data, such as images or chess boards and are used to spatial patterns."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://angelg8.github.io/chess-ai-blog/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Neural Networks: A Deep Dive into Deep Learning 🤖",
+      "item": "https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Neural Networks: A Deep Dive into Deep Learning 🤖",
+  "name": "Neural Networks: A Deep Dive into Deep Learning 🤖",
+  "description": "What is a Neural Network? Neural networks are machine learning models inspired by the human brain. They consist of layers of interconnected nodes (neurons) and learn to make predictions by identifying patterns in data. Through training on labeled datasets, these networks adjust the connections (weights) between nodes to minimize prediction errors. This iterative process, often using techniques like backpropagation, tunes the model for better performance.\nFor our chess AI, we will utilize convolutional neural networks (CNNs), specialized neural networks designed for grid-like data, such as images or chess boards and are used to spatial patterns.",
+  "keywords": [
+    
+  ],
+  "articleBody": "What is a Neural Network? Neural networks are machine learning models inspired by the human brain. They consist of layers of interconnected nodes (neurons) and learn to make predictions by identifying patterns in data. Through training on labeled datasets, these networks adjust the connections (weights) between nodes to minimize prediction errors. This iterative process, often using techniques like backpropagation, tunes the model for better performance.\nFor our chess AI, we will utilize convolutional neural networks (CNNs), specialized neural networks designed for grid-like data, such as images or chess boards and are used to spatial patterns. CNNs have a number of different layers and tuning parameters that can influence the performance of the overall network:\nConvolutional Layers: These layers apply filters over the board, shifting them across by a stride amount. This process helps the network learn patterns, such as advantageous pawn structures. Filter and Stride Sizes: A filter in a CNN is a small matrix of weights that slides over the input data (in this case, a chess board) to perform the convolution operation. The filter is designed to detect specific patterns or features in the input data. The stride is the step size with which the filter moves across the input data Smaller filters and strides capture local patterns (e.g., nearby pieces), while larger ones capture global patterns (e.g., overall board control). Pooling Layers: These layers reduce data dimensionality by taking the maximum value over a region. This helps in learning higher-level patterns and improves computational efficiency. Gathering Training Data To train a CNN for chess evaluation, high-quality training data is essential. Here’s how the data preparation process works:\nData Collection: We will use public chess game data available on Lichess.com to compile our training data. Our training data includes 1,013,294 chess games from January 2013 to August 2014. The games are filtered to include only those where both players have a rating of at least 2,000 Elo, ensuring high-quality moves and strategies. After filtering for Elo, our training data consists of 225,566 board states across 3,000 chess games.\nLabeling Data with Stockfish: Each board position from the selected games is labeled using Stockfish, a powerful chess engine. Stockfish evaluates the relative advantage of each position, providing a numeric score indicating which player is favored and by how much. These evaluations are then paired with the corresponding board positions. Due to the computational complexity of running chess evaluations, Stockfish will be given up to 0.5 seconds to evaluation each board position.\nData Representation: Board positions are stored in Forsyth–Edwards Notation (FEN), a standardized format that compactly represents a chess board state. These FEN strings are converted into 12x8x8 tensors for the CNN. The 12 channels represent the 12 different piece-color combinations (e.g., white pawn, black knight), while the 8x8 grid corresponds to the chess board. For instance, the initial position for white pawns is an 8x8 matrix with 1s on the second row, indicating their positions.\nWith over 225,000 board states, if each state took 0.5 seconds to evaluate, then labeling the data would take over 30 hours alone! Thankfully, we can speed up the process by utilizing multi-threading to label data in parallel. I am labeling the data using an 8-core CPU, so the total labeling time may be around 5-6 hours; enough time to finish overnight!\nCode for processing and labeling data:\nimport os import chess import chess.pgn import chess.engine from concurrent.futures import ThreadPoolExecutor from typing import List, Tuple BATCH_SIZE = 100 NUM_GAMES = 3000 MAX_WORKERS = 8 script_path = os.path.abspath(__file__) stockfish_path = os.path.join(os.path.dirname(script_path), 'engines', 'stockfish', '16', 'bin', 'stockfish') def get_stockfish_evaluation(board: chess.Board, time_limit_seconds: float) -\u003e int: \"\"\" Gets the stockfish evaluation for a board as a centipawn score. A centipawn score measures how good a position is for a player in terms of pawns. A score of 50 means White is up half a pawn, while a score of -200 means Black is up two pawns. Arguments: board (Board): A chess board to evaluate time (float): a maximum time limit for stockfish to run in seconds Returns: (int): The stockfish evaluation for a board as a centipawn score. \"\"\" with chess.engine.SimpleEngine.popen_uci(stockfish_path) as engine: # Analyze the position info: chess.engine.InfoDict = engine.analyse(board=board, limit=chess.engine.Limit(time=time_limit_seconds)) # Get the evaluation score (in centipawns) score: int = info[\"score\"].relative.score() return score def process_game(game: chess.pgn.Game) -\u003e List[Tuple[str, float]]: \"\"\" Evaluates all boards in a given chess game. Arguments: game (Game): A chess game to evaluate Returns: (List[Tuple[str, float]]): A list of tuples containing the fen strings of the boards in the game, and their corresponding stockfish evaluations \"\"\" board = chess.Board() fen_stockfish_evaluations: List[Tuple[str, float]] = [] for move in game.mainline_moves(): board.push(move) fen = board.fen() stockfish_evaluation = get_stockfish_evaluation(board, time_limit_seconds=0.5) fen_stockfish_evaluations.append((fen, stockfish_evaluation)) process_game.num_games += 1 print(\"Games Processed:\", process_game.num_games) return fen_stockfish_evaluations def main() -\u003e None: \"\"\" Reads in data from a pgn file and labels all the moves in every game in the file. The fen strings of the boards and their corresponding stockfish evalutions will be written to a text file. \"\"\" script_path = os.path.abspath(__file__) dataset_path = os.path.join(os.path.dirname(script_path), 'data', 'lichess_db_standard_rated_2014-08.pgn') pgn_file = open(dataset_path) output_file_path = os.path.join(os.path.dirname(script_path), 'data', 'fen_evaluations_lichess_db_standard_rated_2014-08.txt') output_file = open(output_file_path, 'w') process_game.num_games = 0 num_games: int = 0 no_more_games: bool = False with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor: while num_games \u003c NUM_GAMES: if no_more_games: break futures = [] i: int = 0 while i \u003c BATCH_SIZE: game = chess.pgn.read_game(pgn_file) if not ( \"WhiteElo\" in game.headers and \"BlackElo\" in game.headers and game.headers[\"WhiteElo\"] != \"?\" and game.headers[\"BlackElo\"] != \"?\" and int(game.headers[\"WhiteElo\"]) \u003e 2000 and int(game.headers[\"BlackElo\"]) \u003e 2000 ): continue if not game: no_more_games = True break future = executor.submit(process_game, game) futures.append(future) i += 1 for future in futures: result = future.result() if result: for fen, stockfish_evaluation in result: output_file.write(f\"{fen}\\n{stockfish_evaluation}\\n\") num_games += len(futures) output_file.close() pgn_file.close() if __name__ == \"__main__\": main() Building the Model One advantage of using Python to build a chess AI is its robust selection of machine learning libraries. We will be using the TensorFlow library to facilitate the training of the convolutional neural network. TensorFlow is a widely-used open-source library developed by Google for machine learning and deep learning applications. Here is a diagram illustrating the structure of the convolutioanl neural network we will be training:\nA diagram depicting each layer of the convolutional neural network. Our CNN model is designed to approximate Stockfish evaluations based on the training data:\nConvolutional Layers: The input tensor first passes through two convolutional layers. The first layer uses 64 filters with a 5x5 kernel size to capture larger board patterns. The second layer uses 128 filters with a 3x3 kernel size to focus on local piece interactions. These layers detect various features crucial for evaluating chess positions.\nMax Pooling Layers: Max pooling layers follow the convolutional layers, reducing the spatial dimensions of the data while retaining essential features. This step decreases computational complexity and helps the network generalize better.\nBatch Normalization: Batch normalization layers are added to stabilize and accelerate the training process by normalizing the activations of the previous layer. This improves the network’s robustness and performance.\nFinal Layers: Another convolutional layer and max pooling layer are applied before flattening the data into a numeric evaluation. This final step condenses the learned features into a single value representing the board’s evaluation.\nRegularization: L1 and L2 regularization techniques are used to prevent overfitting. Regularization adds a penalty to the loss function based on the magnitude of the network’s weights, encouraging the model to maintain smaller weights and thus generalize better to unseen data.\nCode for training the model:\nimport os import numpy as np from sklearn.model_selection import train_test_split import tensorflow as tf from tensorflow.keras import layers, models from tensorflow.keras.regularizers import l1, l2 from typing import Dict, List import chess import chess.pgn import chess.engine # Evaluate up to 1,000,000 boards, but we only have data for about 225,000 NUM_BOARDS = 1000000 script_path: str = os.path.abspath(__file__) data_path: str = os.path.join(os.path.dirname(script_path), 'data', 'fen_evaluations_lichess_db_standard_rated_2014-08.txt') def board_to_input(board: chess.Board) -\u003e np.ndarray: \"\"\" Converts a chess board into a (12x8x8) tensor input layer Arguments: board (Board): A chess board Returns: (ndarray): The board represented as an (12x8x8) tensor \"\"\" # Define piece mapping for indexing the array piece_mapping: Dict = { 'p': 0, 'r': 1, 'n': 2, 'b': 3, 'q': 4, 'k': 5, 'P': 6, 'R': 7, 'N': 8, 'B': 9, 'Q': 10, 'K': 11, } # Initialize the input array with zeros input_array: np.ndarray = np.zeros((12, 8, 8), dtype=np.int8) # Iterate over the board and fill the input array for row in range(8): for col in range(8): square: chess.Square = chess.square(col, 8 - 1 - row) piece: (chess.Piece | None) = board.piece_at(square) if piece: piece_index = piece_mapping[piece.symbol()] input_array[piece_index, 8 - 1 - row, col] = 1 * int(board.turn) return input_array # Load labeled data from the text file with open(data_path, 'r') as file: lines = file.readlines() # Extract FEN strings and Stockfish evaluations fen_strings: List[str] = [] stockfish_evaluations: List[str] = [] with open(data_path, 'r') as file: for _ in range(NUM_BOARDS): fen = file.readline().strip() eval = file.readline().strip() if not fen or not eval: break fen_strings.append(fen) stockfish_evaluations.append(eval) # Convert FEN strings to numpy array of board inputs x_board = np.array([board_to_input(chess.Board(fen.strip())) for fen in fen_strings]) # Convert Stockfish evaluations to numpy array y_evaluation = np.array([float(eval) / 100 if eval != 'None' else 0.0 for eval in stockfish_evaluations]) # Split data into training and validation sets X_train, X_test, y_train, y_test = train_test_split(np.array(x_board), np.array(y_evaluation), test_size=0.2, random_state=42) # Data needs to be in a specific format when we fit the model X_train = X_train.astype(np.float32) y_train = y_train.astype(np.float32) X_test = X_test.astype(np.float32) y_test = y_test.astype(np.float32) # Replace None with 0 y_train = np.nan_to_num(y_train, nan=0.0) y_test = np.nan_to_num(y_test, nan=0.0) print(\"Building model...\") # This model uses regularization which is a CPU task. This takes much longer to train # compared to GPU tasks, but may lead to better performance. l1_strength: float = 0.05 l2_strength: float = 0.10 model = models.Sequential([ layers.Conv2D(64, (5, 5), activation='relu', input_shape=(12, 8, 8), padding='same', kernel_regularizer=l1(l1_strength)), layers.Conv2D(128, (3, 3), activation='relu', padding='same', kernel_regularizer=l1(l1_strength)), layers.MaxPooling2D((2, 2)), layers.BatchNormalization(), layers.Conv2D(256, (3, 3), activation='relu', padding='same', kernel_regularizer=l2(l2_strength)), layers.MaxPooling2D((2, 2)), layers.Flatten(), layers.Dense(128, activation='relu', kernel_regularizer=l2(l2_strength)), layers.Dense(1) ]) print(\"Compiling model...\") # Compile the model model.compile(optimizer='adam', loss='mean_squared_error') # Train the model model.fit(X_train, y_train, epochs=5, validation_data=(X_test, y_test)) # Evaluate the model on the validation set loss = model.evaluate(X_test, y_test) print(f\"Validation Loss: {loss}\") save_path = os.path.join(os.path.dirname(script_path), 'save', 'model_all_l2') model.save(save_path) Now we can analyze what moves the model makes by having it play against a random AI. In the following demonstration, a Random AI will play as white against a CNN AI playing as black.\nAlready we can see certain patterns emerge in the CNN AI. With no prior theory or strategy, the neural network figures out that capturing pieces is generally positive. However, there are certain biases in its decision making.\nNearing the end of the game, when white is running out of pieces, black tends to move its pawns and king the most. Endgame strategies are notoriously complicated in chess. Moving pawns and the king in the endgame can have massive implications tens of moves in the future. At high levels of play, it’s crucial to be able to push pawns and help deliver checkmate by utilizing the king. The neural network likely picked up on this pattern from its training data but could not create accurate evaluations of endgame board states due to its complex nature. As a result, it repeatedly moved its king and forced a draw.\nAnother notable pattern is the CNN’s tendency to move its knights frequently in the early game. This behavior likely reflects the training data, which consists of games evaluated by Stockfish. In chess, there is a vast amount of opening theory that dictates optimal piece development in the early stages of the game. Knights are often developed early to control the center and prepare for subsequent strategic plans. However, without an understanding of these deeper strategic principles, the neural network may overvalue knight moves based on the initial positions in its training data. This suggests that while the CNN can identify useful patterns, it may not fully grasp the broader strategic context, especially regarding established opening principles.\nNow we will run the CNN AI against the AlphaBeta AI, with the AlphaBeta AI playing as white, and the CNN AI playing as black.\nAs evident from the game, the AlphaBeta AI plays much better than the CNN AI. This is likely due to the many technical limitations of training a convolutional neural network. When creating the training data, Stockfish is only ran for 0.5 seconds to evaluate a board, which may not be enough time to generate an accurate evaluation. Although over 225,000 board states were evaluated across 3,000 chess games were analyzed, this may not be enough data considering the myriad of possible paths and board states a game end up in. After all, there are 809,896 distinct board states after just 5 moves in chess. Without incorporating more strategy and theory into training the convolutional neural network, we quickly run into the computational difficulties of chess.\n",
+  "wordCount" : "2141",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://angelg8.github.io/chess-ai-blog/posts/4-chess-ai/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Angel Gong",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://angelg8.github.io/chess-ai-blog/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://angelg8.github.io/chess-ai-blog/" accesskey="h" title="Angel Gong (Alt + H)">Angel Gong</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://angelg8.github.io/chess-ai-blog/">Home</a>&nbsp;»&nbsp;<a href="https://angelg8.github.io/chess-ai-blog/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Neural Networks: A Deep Dive into Deep Learning 🤖
+    </h1>
+    <div class="post-meta">11 min
+
+</div>
+  </header> 
+  <div class="post-content"><h3 id="what-is-a-neural-network">What is a Neural Network?<a hidden class="anchor" aria-hidden="true" href="#what-is-a-neural-network">#</a></h3>
+<p>Neural networks are machine learning models inspired by the human brain. They consist of layers of interconnected nodes (neurons) and learn to make predictions by identifying patterns in data. Through training on labeled datasets, these networks adjust the connections (weights) between nodes to minimize prediction errors. This iterative process, often using techniques like backpropagation, tunes the model for better performance.</p>
+<p>For our chess AI, we will utilize convolutional neural networks (CNNs), specialized neural networks designed for grid-like data, such as images or chess boards and are used to spatial patterns. CNNs have a number of different layers and tuning parameters that can influence the performance of the overall network:</p>
+<ol>
+<li><strong>Convolutional Layers:</strong> These layers apply filters over the board, shifting them across by a stride amount. This process helps the network learn patterns, such as advantageous pawn structures.</li>
+<li><strong>Filter and Stride Sizes:</strong> A filter in a CNN is a small matrix of weights that slides over the input data (in this case, a chess board) to perform the convolution operation. The filter is designed to detect specific patterns or features in the input data. The stride is the step size with which the filter moves across the input data Smaller filters and strides capture local patterns (e.g., nearby pieces), while larger ones capture global patterns (e.g., overall board control).</li>
+<li><strong>Pooling Layers:</strong> These layers reduce data dimensionality by taking the maximum value over a region. This helps in learning higher-level patterns and improves computational efficiency.</li>
+</ol>
+<hr>
+<h3 id="gathering-training-data">Gathering Training Data<a hidden class="anchor" aria-hidden="true" href="#gathering-training-data">#</a></h3>
+<p>To train a CNN for chess evaluation, high-quality training data is essential. Here&rsquo;s how the data preparation process works:</p>
+<ol>
+<li>
+<p><strong>Data Collection:</strong> We will use public chess game data available on Lichess.com to compile our training data. Our training data includes 1,013,294 chess games from January 2013 to August 2014. The games are filtered to include only those where both players have a rating of at least 2,000 Elo, ensuring high-quality moves and strategies. After filtering for Elo, our training data consists of 225,566 board states across 3,000 chess games.</p>
+</li>
+<li>
+<p><strong>Labeling Data with Stockfish:</strong> Each board position from the selected games is labeled using Stockfish, a powerful chess engine. Stockfish evaluates the relative advantage of each position, providing a numeric score indicating which player is favored and by how much. These evaluations are then paired with the corresponding board positions. Due to the computational complexity of running chess evaluations, Stockfish will be given up to 0.5 seconds to evaluation each board position.</p>
+</li>
+<li>
+<p><strong>Data Representation:</strong> Board positions are stored in Forsyth–Edwards Notation (FEN), a standardized format that compactly represents a chess board state. These FEN strings are converted into 12x8x8 tensors for the CNN. The 12 channels represent the 12 different piece-color combinations (e.g., white pawn, black knight), while the 8x8 grid corresponds to the chess board. For instance, the initial position for white pawns is an 8x8 matrix with 1s on the second row, indicating their positions.</p>
+</li>
+</ol>
+<p>With over 225,000 board states, if each state took 0.5 seconds to evaluate, then labeling the data would take over 30 hours alone! Thankfully, we can speed up the process by utilizing multi-threading to label data in parallel. I am labeling the data using an 8-core CPU, so the total labeling time may be around 5-6 hours; enough time to finish overnight!</p>
+<p>Code for processing and labeling data:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> chess
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> chess.pgn
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> chess.engine
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> concurrent.futures <span style="color:#f92672">import</span> ThreadPoolExecutor
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> List, Tuple
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BATCH_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>NUM_GAMES <span style="color:#f92672">=</span> <span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>MAX_WORKERS <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>script_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(__file__)
+</span></span><span style="display:flex;"><span>stockfish_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(script_path), <span style="color:#e6db74">&#39;engines&#39;</span>, <span style="color:#e6db74">&#39;stockfish&#39;</span>, <span style="color:#e6db74">&#39;16&#39;</span>, <span style="color:#e6db74">&#39;bin&#39;</span>, <span style="color:#e6db74">&#39;stockfish&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_stockfish_evaluation</span>(board: chess<span style="color:#f92672">.</span>Board, time_limit_seconds: float) <span style="color:#f92672">-&gt;</span> int:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Gets the stockfish evaluation for a board as a centipawn score.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    A centipawn score measures how good a position is for a player in
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    terms of pawns. A score of 50 means White is up half a pawn, while
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    a score of -200 means Black is up two pawns.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Arguments:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        board (Board): A chess board to evaluate
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        time (float): a maximum time limit for stockfish to run in seconds
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        (int): The stockfish evaluation for a board as a centipawn score.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> chess<span style="color:#f92672">.</span>engine<span style="color:#f92672">.</span>SimpleEngine<span style="color:#f92672">.</span>popen_uci(stockfish_path) <span style="color:#66d9ef">as</span> engine:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Analyze the position</span>
+</span></span><span style="display:flex;"><span>        info: chess<span style="color:#f92672">.</span>engine<span style="color:#f92672">.</span>InfoDict <span style="color:#f92672">=</span> engine<span style="color:#f92672">.</span>analyse(board<span style="color:#f92672">=</span>board, limit<span style="color:#f92672">=</span>chess<span style="color:#f92672">.</span>engine<span style="color:#f92672">.</span>Limit(time<span style="color:#f92672">=</span>time_limit_seconds))
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Get the evaluation score (in centipawns)</span>
+</span></span><span style="display:flex;"><span>        score: int <span style="color:#f92672">=</span> info[<span style="color:#e6db74">&#34;score&#34;</span>]<span style="color:#f92672">.</span>relative<span style="color:#f92672">.</span>score()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> score
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_game</span>(game: chess<span style="color:#f92672">.</span>pgn<span style="color:#f92672">.</span>Game) <span style="color:#f92672">-&gt;</span> List[Tuple[str, float]]:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Evaluates all boards in a given chess game.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Arguments:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        game (Game): A chess game to evaluate
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        (List[Tuple[str, float]]): A list of tuples containing the fen strings of
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                                   the boards in the game, and their corresponding
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                                   stockfish evaluations
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    board <span style="color:#f92672">=</span> chess<span style="color:#f92672">.</span>Board()
+</span></span><span style="display:flex;"><span>    fen_stockfish_evaluations: List[Tuple[str, float]] <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> move <span style="color:#f92672">in</span> game<span style="color:#f92672">.</span>mainline_moves():
+</span></span><span style="display:flex;"><span>        board<span style="color:#f92672">.</span>push(move)
+</span></span><span style="display:flex;"><span>        fen <span style="color:#f92672">=</span> board<span style="color:#f92672">.</span>fen()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        stockfish_evaluation <span style="color:#f92672">=</span> get_stockfish_evaluation(board, time_limit_seconds<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>        fen_stockfish_evaluations<span style="color:#f92672">.</span>append((fen, stockfish_evaluation))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    process_game<span style="color:#f92672">.</span>num_games <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Games Processed:&#34;</span>, process_game<span style="color:#f92672">.</span>num_games)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> fen_stockfish_evaluations
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>() <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Reads in data from a pgn file and labels all the moves in every game in the file.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    The fen strings of the boards and their corresponding stockfish evalutions will be
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    written to a text file.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    script_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(__file__)
+</span></span><span style="display:flex;"><span>    dataset_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(script_path), <span style="color:#e6db74">&#39;data&#39;</span>, <span style="color:#e6db74">&#39;lichess_db_standard_rated_2014-08.pgn&#39;</span>)
+</span></span><span style="display:flex;"><span>    pgn_file <span style="color:#f92672">=</span> open(dataset_path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    output_file_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(script_path), <span style="color:#e6db74">&#39;data&#39;</span>, <span style="color:#e6db74">&#39;fen_evaluations_lichess_db_standard_rated_2014-08.txt&#39;</span>)
+</span></span><span style="display:flex;"><span>    output_file <span style="color:#f92672">=</span> open(output_file_path, <span style="color:#e6db74">&#39;w&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    process_game<span style="color:#f92672">.</span>num_games <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    num_games: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    no_more_games: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> ThreadPoolExecutor(max_workers<span style="color:#f92672">=</span>MAX_WORKERS) <span style="color:#66d9ef">as</span> executor:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> num_games <span style="color:#f92672">&lt;</span> NUM_GAMES:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> no_more_games:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            futures <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>            i: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> i <span style="color:#f92672">&lt;</span> BATCH_SIZE:
+</span></span><span style="display:flex;"><span>                game <span style="color:#f92672">=</span> chess<span style="color:#f92672">.</span>pgn<span style="color:#f92672">.</span>read_game(pgn_file)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> (
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;WhiteElo&#34;</span> <span style="color:#f92672">in</span> game<span style="color:#f92672">.</span>headers
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">and</span> <span style="color:#e6db74">&#34;BlackElo&#34;</span> <span style="color:#f92672">in</span> game<span style="color:#f92672">.</span>headers
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">and</span> game<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#34;WhiteElo&#34;</span>] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;?&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">and</span> game<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#34;BlackElo&#34;</span>] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;?&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">and</span> int(game<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#34;WhiteElo&#34;</span>]) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2000</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">and</span> int(game<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#34;BlackElo&#34;</span>]) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2000</span>
+</span></span><span style="display:flex;"><span>                ):
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> game:
+</span></span><span style="display:flex;"><span>                    no_more_games <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>                future <span style="color:#f92672">=</span> executor<span style="color:#f92672">.</span>submit(process_game, game)
+</span></span><span style="display:flex;"><span>                futures<span style="color:#f92672">.</span>append(future)
+</span></span><span style="display:flex;"><span>                i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> future <span style="color:#f92672">in</span> futures:
+</span></span><span style="display:flex;"><span>                result <span style="color:#f92672">=</span> future<span style="color:#f92672">.</span>result()
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> result:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">for</span> fen, stockfish_evaluation <span style="color:#f92672">in</span> result:
+</span></span><span style="display:flex;"><span>                        output_file<span style="color:#f92672">.</span>write(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>fen<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">{</span>stockfish_evaluation<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            num_games <span style="color:#f92672">+=</span> len(futures)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    output_file<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>    pgn_file<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><hr>
+<h3 id="building-the-model">Building the Model<a hidden class="anchor" aria-hidden="true" href="#building-the-model">#</a></h3>
+<p>One advantage of using Python to build a chess AI is its robust selection of machine learning libraries. We will be using the TensorFlow library to facilitate the training of the convolutional neural network. TensorFlow is a widely-used open-source library developed by Google for machine learning and deep learning applications. Here is a diagram illustrating the structure of the convolutioanl neural network we will be training:</p>
+
+
+
+
+
+
+<figure style="text-align: center;">
+    <img src="/chess-ai-blog/images/model_diagram.jpg" alt="CNN model diagram" width="400" height="1120"
+        style="margin: 0 auto">
+    <figcaption style="text-align: center;">A diagram depicting each layer of the convolutional neural network.</figcaption>
+</figure>
+<p>Our CNN model is designed to approximate Stockfish evaluations based on the training data:</p>
+<ol>
+<li>
+<p><strong>Convolutional Layers:</strong> The input tensor first passes through two convolutional layers. The first layer uses 64 filters with a 5x5 kernel size to capture larger board patterns. The second layer uses 128 filters with a 3x3 kernel size to focus on local piece interactions. These layers detect various features crucial for evaluating chess positions.</p>
+</li>
+<li>
+<p><strong>Max Pooling Layers:</strong> Max pooling layers follow the convolutional layers, reducing the spatial dimensions of the data while retaining essential features. This step decreases computational complexity and helps the network generalize better.</p>
+</li>
+<li>
+<p><strong>Batch Normalization:</strong> Batch normalization layers are added to stabilize and accelerate the training process by normalizing the activations of the previous layer. This improves the network&rsquo;s robustness and performance.</p>
+</li>
+<li>
+<p><strong>Final Layers:</strong> Another convolutional layer and max pooling layer are applied before flattening the data into a numeric evaluation. This final step condenses the learned features into a single value representing the board&rsquo;s evaluation.</p>
+</li>
+<li>
+<p><strong>Regularization:</strong> L1 and L2 regularization techniques are used to prevent overfitting. Regularization adds a penalty to the loss function based on the magnitude of the network&rsquo;s weights, encouraging the model to maintain smaller weights and thus generalize better to unseen data.</p>
+</li>
+</ol>
+<p>Code for training the model:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> train_test_split
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tensorflow <span style="color:#66d9ef">as</span> tf
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras <span style="color:#f92672">import</span> layers, models
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras.regularizers <span style="color:#f92672">import</span> l1, l2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Dict, List
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> chess
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> chess.pgn
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> chess.engine
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Evaluate up to 1,000,000 boards, but we only have data for about 225,000</span>
+</span></span><span style="display:flex;"><span>NUM_BOARDS <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>script_path: str <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(__file__)
+</span></span><span style="display:flex;"><span>data_path: str <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(script_path), <span style="color:#e6db74">&#39;data&#39;</span>, <span style="color:#e6db74">&#39;fen_evaluations_lichess_db_standard_rated_2014-08.txt&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">board_to_input</span>(board: chess<span style="color:#f92672">.</span>Board) <span style="color:#f92672">-&gt;</span> np<span style="color:#f92672">.</span>ndarray:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Converts a chess board into a (12x8x8) tensor input layer
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Arguments:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        board (Board): A chess board
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        (ndarray): The board represented as an (12x8x8) tensor
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Define piece mapping for indexing the array</span>
+</span></span><span style="display:flex;"><span>    piece_mapping: Dict <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;p&#39;</span>: <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#39;r&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;n&#39;</span>: <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#39;b&#39;</span>: <span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;q&#39;</span>: <span style="color:#ae81ff">4</span>, <span style="color:#e6db74">&#39;k&#39;</span>: <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;P&#39;</span>: <span style="color:#ae81ff">6</span>, <span style="color:#e6db74">&#39;R&#39;</span>: <span style="color:#ae81ff">7</span>, <span style="color:#e6db74">&#39;N&#39;</span>: <span style="color:#ae81ff">8</span>, <span style="color:#e6db74">&#39;B&#39;</span>: <span style="color:#ae81ff">9</span>, <span style="color:#e6db74">&#39;Q&#39;</span>: <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#39;K&#39;</span>: <span style="color:#ae81ff">11</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Initialize the input array with zeros</span>
+</span></span><span style="display:flex;"><span>    input_array: np<span style="color:#f92672">.</span>ndarray <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">8</span>), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>int8)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Iterate over the board and fill the input array</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">8</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> col <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">8</span>):
+</span></span><span style="display:flex;"><span>            square: chess<span style="color:#f92672">.</span>Square <span style="color:#f92672">=</span> chess<span style="color:#f92672">.</span>square(col, <span style="color:#ae81ff">8</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> row) 
+</span></span><span style="display:flex;"><span>            piece: (chess<span style="color:#f92672">.</span>Piece <span style="color:#f92672">|</span> <span style="color:#66d9ef">None</span>) <span style="color:#f92672">=</span> board<span style="color:#f92672">.</span>piece_at(square)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> piece:
+</span></span><span style="display:flex;"><span>                piece_index <span style="color:#f92672">=</span> piece_mapping[piece<span style="color:#f92672">.</span>symbol()]
+</span></span><span style="display:flex;"><span>                input_array[piece_index, <span style="color:#ae81ff">8</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> row, col] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> int(board<span style="color:#f92672">.</span>turn)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> input_array
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load labeled data from the text file</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(data_path, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> file:
+</span></span><span style="display:flex;"><span>    lines <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span>readlines()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Extract FEN strings and Stockfish evaluations</span>
+</span></span><span style="display:flex;"><span>fen_strings: List[str] <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>stockfish_evaluations: List[str] <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(data_path, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> file:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(NUM_BOARDS):
+</span></span><span style="display:flex;"><span>        fen <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span>readline()<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>        eval <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span>readline()<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> fen <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> eval:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        fen_strings<span style="color:#f92672">.</span>append(fen)
+</span></span><span style="display:flex;"><span>        stockfish_evaluations<span style="color:#f92672">.</span>append(eval)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Convert FEN strings to numpy array of board inputs</span>
+</span></span><span style="display:flex;"><span>x_board <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([board_to_input(chess<span style="color:#f92672">.</span>Board(fen<span style="color:#f92672">.</span>strip())) <span style="color:#66d9ef">for</span> fen <span style="color:#f92672">in</span> fen_strings])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Convert Stockfish evaluations to numpy array</span>
+</span></span><span style="display:flex;"><span>y_evaluation <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([float(eval) <span style="color:#f92672">/</span> <span style="color:#ae81ff">100</span> <span style="color:#66d9ef">if</span> eval <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;None&#39;</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0.0</span> <span style="color:#66d9ef">for</span> eval <span style="color:#f92672">in</span> stockfish_evaluations])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Split data into training and validation sets</span>
+</span></span><span style="display:flex;"><span>X_train, X_test, y_train, y_test <span style="color:#f92672">=</span> train_test_split(np<span style="color:#f92672">.</span>array(x_board), np<span style="color:#f92672">.</span>array(y_evaluation), test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Data needs to be in a specific format when we fit the model</span>
+</span></span><span style="display:flex;"><span>X_train <span style="color:#f92672">=</span> X_train<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>y_train <span style="color:#f92672">=</span> y_train<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>X_test <span style="color:#f92672">=</span> X_test<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>y_test <span style="color:#f92672">=</span> y_test<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Replace None with 0</span>
+</span></span><span style="display:flex;"><span>y_train <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>nan_to_num(y_train, nan<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>)
+</span></span><span style="display:flex;"><span>y_test <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>nan_to_num(y_test, nan<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Building model...&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This model uses regularization which is a CPU task. This takes much longer to train </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># compared to GPU tasks, but may lead to better performance.</span>
+</span></span><span style="display:flex;"><span>l1_strength: float <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>
+</span></span><span style="display:flex;"><span>l2_strength: float <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>Sequential([
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>Conv2D(<span style="color:#ae81ff">64</span>, (<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>), activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">8</span>), padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>, kernel_regularizer<span style="color:#f92672">=</span>l1(l1_strength)),
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>Conv2D(<span style="color:#ae81ff">128</span>, (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>), activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>, padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>, kernel_regularizer<span style="color:#f92672">=</span>l1(l1_strength)),
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>MaxPooling2D((<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>)),
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>BatchNormalization(),
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>Conv2D(<span style="color:#ae81ff">256</span>, (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>), activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>, padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>, kernel_regularizer<span style="color:#f92672">=</span>l2(l2_strength)),
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>MaxPooling2D((<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>)),
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>Flatten(),
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>Dense(<span style="color:#ae81ff">128</span>, activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>, kernel_regularizer<span style="color:#f92672">=</span>l2(l2_strength)),
+</span></span><span style="display:flex;"><span>    layers<span style="color:#f92672">.</span>Dense(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Compiling model...&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Compile the model</span>
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">.</span>compile(optimizer<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;adam&#39;</span>, loss<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mean_squared_error&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Train the model</span>
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">.</span>fit(X_train, y_train, epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, validation_data<span style="color:#f92672">=</span>(X_test, y_test))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Evaluate the model on the validation set</span>
+</span></span><span style="display:flex;"><span>loss <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(X_test, y_test)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Validation Loss: </span><span style="color:#e6db74">{</span>loss<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>save_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(script_path), <span style="color:#e6db74">&#39;save&#39;</span>, <span style="color:#e6db74">&#39;model_all_l2&#39;</span>)
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">.</span>save(save_path)
+</span></span></code></pre></div><p>Now we can analyze what moves the model makes by having it play against a random AI. In the following demonstration, a Random AI will play as white against a CNN AI playing as black.</p>
+
+
+
+
+
+<center>
+    <iframe width="482" height="480" src="https://www.youtube.com/embed/l81qdw6tu20?modestbranding=1"
+        frameborder="0" allowfullscreen></iframe>
+</center>
+<p>Already we can see certain patterns emerge in the CNN AI. With no prior theory or strategy, the neural network figures out that capturing pieces is generally positive. However, there are certain biases in its decision making.</p>
+<p>Nearing the end of the game, when white is running out of pieces, black tends to move its pawns and king the most. Endgame strategies are notoriously complicated in chess. Moving pawns and the king in the endgame can have massive implications tens of moves in the future. At high levels of play, it&rsquo;s crucial to be able to push pawns and help deliver checkmate by utilizing the king. The neural network likely picked up on this pattern from its training data but could not create accurate evaluations of endgame board states due to its complex nature. As a result, it repeatedly moved its king and forced a draw.</p>
+<p>Another notable pattern is the CNN&rsquo;s tendency to move its knights frequently in the early game. This behavior likely reflects the training data, which consists of games evaluated by Stockfish. In chess, there is a vast amount of opening theory that dictates optimal piece development in the early stages of the game. Knights are often developed early to control the center and prepare for subsequent strategic plans. However, without an understanding of these deeper strategic principles, the neural network may overvalue knight moves based on the initial positions in its training data. This suggests that while the CNN can identify useful patterns, it may not fully grasp the broader strategic context, especially regarding established opening principles.</p>
+<hr>
+<p>Now we will run the CNN AI against the AlphaBeta AI, with the AlphaBeta AI playing as white, and the CNN AI playing as black.</p>
+
+
+
+
+
+<center>
+    <iframe width="482" height="480" src="https://www.youtube.com/embed/zgS1bM16xXU?modestbranding=1"
+        frameborder="0" allowfullscreen></iframe>
+</center>
+<p>As evident from the game, the AlphaBeta AI plays much better than the CNN AI. This is likely due to the many technical limitations of training a convolutional neural network. When creating the training data, Stockfish is only ran for 0.5 seconds to evaluate a board, which may not be enough time to generate an accurate evaluation. Although over 225,000 board states were evaluated across 3,000 chess games were analyzed,  this may not be enough data considering the myriad of possible paths and board states a game end up in. After all, there are 809,896 distinct board states after just 5 moves in chess. Without incorporating more strategy and theory into training the convolutional neural network, we quickly run into the computational difficulties of chess.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://angelg8.github.io/chess-ai-blog/posts/3-chess-ai/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Rooting for Success: Improving Tree Search 🌲</span>
+  </a>
+  <a class="next" href="https://angelg8.github.io/chess-ai-blog/posts/5-chess-ai/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Simulation Data: Stats For Nerds 📊</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://angelg8.github.io/chess-ai-blog/">Angel Gong</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
